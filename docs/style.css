@@ -17,9 +17,12 @@
 @font-face {
 	font-family: "Trocchi Regular";
 	src: url("Trocchi-Regular.ttf"); }
+@font-face {
+	font-family: "Jersey10 Regular";
+	src: url("Jersey10-Regular.ttf"); }
 html {
   font-family: "Trocchi Regular";
-  font-size: 1.8vh;
+  font-size: 1.5vh;
   color: #2b2b2b;
   background-color: #F7F5F2;
   text-rendering: optimizeLegibility;
@@ -32,20 +35,22 @@ body {
   margin-bottom: 50vh;
 }
 h1 {
-  font-size: 4.4vh;
+  font-size: 4.8vh;
   font-family: "Trocchi Regular";
+  font-weight: 800;
 }
 h2 {
-  font-size: 2.8vh;
+  font-size: 3.4vh;
 }
 hr {
   color: #2b2b2b;
-  border-top: 2px solid #2b2b2b;
-  border-bottom: 3px solid #d6d5eb;
+  border-top: 1px solid #2b2b2b;
+  border-bottom: 5px solid #d6d5eb;
 }
 img, video {
-  border: 2px solid #2b2b2b;
-  box-shadow: 0px 3px #d6d5eb;
+  image-rendering: pixelated;
+  border: 1px solid #2b2b2b;
+  box-shadow: 5px 5px #d6d5eb;
   width: 100%;
   height: auto;
   display: block;
@@ -53,9 +58,9 @@ img, video {
   z-index: 2000;
 }
 .selfie {
-  border: 2px solid #2b2b2b;
-  width: 30%;
-  border-radius: 50%;
+  border: 1px solid #2b2b2b;
+  width: 33.3333%;
+  border-radius: 0%;
 }
 a:link, a:visited {
   color: #585cdf;
@@ -85,4 +90,30 @@ li {
   background-position: 0 0;
   mix-blend-mode: overlay;
   opacity: 0.5;
+}
+.grid-container {
+  display: grid;
+  grid-template-columns: auto auto auto;
+  grid-gap: 1px;
+  padding: 0px;
+}
+.grid-item {
+  position: relative;
+}
+.caption {
+  position: absolute;
+  bottom: 5%;
+  left: 5%;
+  right: 5%;
+  background-color: rgba(0, 0, 0, 1);
+  color: white;
+  text-align: center;
+  padding: 0.5em;
+  box-shadow: 5px 5px rgba(0, 0, 0, 0.15);
+  z-index: 3000;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+.grid-item:hover .caption {
+  opacity: 1;
 }

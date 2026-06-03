@@ -29,7 +29,7 @@
 #define BYTE 1
 #define KILOBYTE (1024 * BYTE)
 #define MEGABYTE (1024 * KILOBYTE)
-#define PAGE_SIZE_LIMIT (100 * MEGABYTE)
+#define PAGE_SIZE_LIMIT (200 * MEGABYTE)
 
 
 
@@ -339,87 +339,88 @@ CLASS_HTML typedef struct HTML_Token HTML_Token; struct HTML_Token {
 
 
 //                                                ~  FORWARD DECLARATIONS  ~
-CLASS_STRING void string_determine_len(String* string);
-CLASS_STRING void string_trim_buffer_to_len(String* string);
-CLASS_STRING String string_from_buffer_and_len(char* buffer, uint32_t len);
-CLASS_STRING String string_from_buffer_and_range(char* buffer, Range range);
-CLASS_STRING String string_from_buffer(char* buffer);
-CLASS_STRING String string_from_len(uint32_t len);
-CLASS_STRING String string_from_file_handle(File_Handle handle);
-CLASS_STRING String string_from_file(String path);
-CLASS_STRING String string_slice_tail(String string, uint32_t start_index);
-CLASS_STRING String string_slice(String string, Range range);
-CLASS_STRING bool strings_equal(String string_a, String string_b);
-CLASS_STRING String strings_concatenate(String string_a, String string_b);
-CLASS_STRING bool string_contains(String string, char c);
-CLASS_STRING bool string_is_whitespace(String string);
-CLASS_STRING void string_to_file(String string, String path);
-CLASS_STRING String string_clone(String string);
+CLASS_STRING static void string_determine_len(String* string);
+CLASS_STRING static void string_trim_buffer_to_len(String* string);
+CLASS_STRING static String string_from_buffer_and_len(char* buffer, uint32_t len);
+CLASS_STRING static String string_from_buffer_and_range(char* buffer, Range range);
+CLASS_STRING static String string_from_buffer(char* buffer);
+CLASS_STRING static String string_from_len(uint32_t len);
+CLASS_STRING static String string_from_file_handle(File_Handle handle);
+CLASS_STRING static String string_from_file(String path);
+CLASS_STRING static String string_slice_tail(String string, uint32_t start_index);
+CLASS_STRING static String string_slice(String string, Range range);
+CLASS_STRING static bool strings_equal(String string_a, String string_b);
+CLASS_STRING static String strings_concatenate(String string_a, String string_b);
+CLASS_STRING static bool string_contains(String string, char c);
+CLASS_STRING static bool string_is_whitespace(String string);
+CLASS_STRING static void string_to_file(String string, String path);
+CLASS_STRING static String string_clone(String string);
 #define STRING(x) string_from_buffer(x)
 #define COMPTIME_STRING(x) { .buffer = x, .len = sizeof(x) - 1 }
-Stack new_stack(uint32_t count, size_t elem_size);
-void* stack_push(Stack* stack, void* elem);
-void* stack_peek(Stack* stack);
-CLASS_STRING_BUILDER String_Builder new_string_builder(uint32_t cap);
-CLASS_STRING_BUILDER void sbprints(String_Builder* sb, String string);
-CLASS_STRING_BUILDER void sbprints_times(String_Builder* sb, String string, uint32_t times);
-CLASS_STRING_BUILDER String string_builder_to_string(String_Builder* string_builder);
-CLASS_IO bool file_exists(String path);
-CLASS_IO File_Handle open_file(String path, File_Access access);
-CLASS_IO void create_file(String path);
-CLASS_IO void close_file(File_Handle handle);
-CLASS_IO File_Handle create_and_open_file(String path);
-CLASS_IO void remove_file(String path);
-CLASS_IO String get_executable_filepath();
-CLASS_IO String get_executable_directory();
-CLASS_IO bool exists_in_PATH(String name);
-CLASS_IO String path_join(String path_left, String path_right);
-CLASS_IO void create_directory(String path);
-CLASS_IO void remove_directory(String path);
-CLASS_IO void clear_directory(String path);
-CLASS_IO Process_Handle execute_command(String command, String working_directory, bool silence);
-CLASS_IO void wait_for_process(Process_Handle handle);
-CLASS_IO char* full_path_of(char* name);
-CLASS_IO void create_pipe(Pipe_Handle* write_handle, Pipe_Handle* read_handle, File_Access inherited, uint32_t size);
-CLASS_IO void destroy_pipe(Pipe_Handle handle);
-CLASS_UTIL char* _get_last_error();
-CLASS_UTIL void _sbprint_global_attributes(String_Builder* sb, Global_Attributes global_attributes);
-CLASS_HTML bool pgprint_generic_element_begin(String type, Global_Attributes global_attributes);
-CLASS_HTML bool pgprint_generic_element_end(String type);
-CLASS_HTML bool pgprint_html_element_begin(String language);
-CLASS_HTML bool pgprint_html_element_end();
-CLASS_HTML bool pgprint_head_element_begin(Global_Attributes global_attributes);
-CLASS_HTML bool pgprint_head_element_end();
-CLASS_HTML bool pgprint_header_element_begin(Global_Attributes global_attributes);
-CLASS_HTML bool pgprint_header_element_end();
-CLASS_HTML bool pgprint_nav_element_begin(Global_Attributes global_attributes);
-CLASS_HTML bool pgprint_nav_element_end();
-CLASS_HTML bool pgprint_footer_element_begin(Global_Attributes global_attributes);
-CLASS_HTML bool pgprint_footer_element_end();
-CLASS_HTML void _generic_element(String type, String content, Global_Attributes global_attributes);
-CLASS_HTML void pgprint_title_element(String content, Global_Attributes global_attributes);
-CLASS_HTML void pgprint_script_element(String source, bool async);
-CLASS_HTML void pgprint_meta_charset_element();
-CLASS_HTML void pgprint_h1_element(String content, Global_Attributes global_attributes);
-CLASS_HTML void pgprint_h2_element(String content, Global_Attributes global_attributes);
-CLASS_HTML void pgprint_h3_element(String content, Global_Attributes global_attributes);
-CLASS_HTML void pgprint_h4_element(String content, Global_Attributes global_attributes);
-CLASS_HTML bool pgprint_body_element_begin(Global_Attributes global_attributes);
-CLASS_HTML bool pgprint_body_element_end();
-CLASS_HTML void pgprint_link_stylesheet_element(String href);
-CLASS_HTML void pgprint_string(String string);
-CLASS_HTML bool pgprint_page_begin(String name);
-CLASS_HTML bool pgprint_page_end();
-CLASS_HTML bool html_element_type_must_be_empty(HTML_Element_Type element_type);
-CLASS_HTML void _debug_print_html_token(String content, HTML_Token* token);
-CLASS_HTML void _debug_print_html_token_recursive(String content, HTML_Token* token, uint32_t depth);
-CLASS_HTML HTML_Element_Type html_element_type_from_string(String string);
-CLASS_HTML HTML_File html_file_from_string(String content);
-CLASS_HTML HTML_File html_file_search_element_depth_first(HTML_File file, HTML_Element_Type element_type);
-CLASS_HTML HTML_File html_file_search_element_type(HTML_File file, HTML_Element_Type element_type);
-CLASS_HTML void html_token_correct_links(HTML_Token* token);
-CLASS_HTML HTML_Element* html_element_from_html_token_recursive(String content, HTML_Token* token);
-CLASS_TYPST HTML_File html_file_from_typst(String path);
+static Stack new_stack(uint32_t count, size_t elem_size);
+static void* stack_push(Stack* stack, void* elem);
+static void* stack_peek(Stack* stack);
+CLASS_STRING_BUILDER static String_Builder new_string_builder(uint32_t cap);
+CLASS_STRING_BUILDER static void sbprints(String_Builder* sb, String string);
+CLASS_STRING_BUILDER static void sbprints_times(String_Builder* sb, String string, uint32_t times);
+CLASS_STRING_BUILDER static String string_builder_to_string(String_Builder* string_builder);
+CLASS_IO static bool file_exists(String path);
+CLASS_IO static File_Handle open_file(String path, File_Access access);
+CLASS_IO static void create_file(String path);
+CLASS_IO static void close_file(File_Handle handle);
+CLASS_IO static File_Handle create_and_open_file(String path);
+CLASS_IO static void remove_file(String path);
+CLASS_IO static String get_executable_filepath();
+CLASS_IO static String get_executable_directory();
+CLASS_IO static bool exists_in_PATH(String name);
+CLASS_IO static String path_join(String path_left, String path_right);
+CLASS_IO static void create_directory(String path);
+CLASS_IO static void remove_directory(String path);
+CLASS_IO static void clear_directory(String path);
+CLASS_IO static Process_Handle execute_command(String command, String working_directory, bool silence);
+CLASS_IO static void wait_for_process(Process_Handle handle);
+CLASS_IO static char* full_path_of(char* name);
+CLASS_IO static void create_pipe(Pipe_Handle* write_handle, Pipe_Handle* read_handle, File_Access inherited, uint32_t size);
+CLASS_IO static void destroy_pipe(Pipe_Handle handle);
+CLASS_UTIL static char* _get_last_error();
+CLASS_UTIL static void _sbprint_global_attributes(String_Builder* sb, Global_Attributes global_attributes);
+CLASS_HTML static bool pgprint_generic_element_begin(String type, Global_Attributes global_attributes);
+CLASS_HTML static bool pgprint_generic_element_end(String type);
+CLASS_HTML static bool pgprint_html_element_begin(String language);
+CLASS_HTML static bool pgprint_html_element_end();
+CLASS_HTML static bool pgprint_head_element_begin(Global_Attributes global_attributes);
+CLASS_HTML static bool pgprint_head_element_end();
+CLASS_HTML static bool pgprint_header_element_begin(Global_Attributes global_attributes);
+CLASS_HTML static bool pgprint_header_element_end();
+CLASS_HTML static bool pgprint_nav_element_begin(Global_Attributes global_attributes);
+CLASS_HTML static bool pgprint_nav_element_end();
+CLASS_HTML static bool pgprint_footer_element_begin(Global_Attributes global_attributes);
+CLASS_HTML static bool pgprint_footer_element_end();
+CLASS_HTML static void _generic_element(String type, String content, Global_Attributes global_attributes);
+CLASS_HTML static void pgprint_title_element(String content, Global_Attributes global_attributes);
+CLASS_HTML static void pgprint_script_element(String source, bool async);
+CLASS_HTML static void pgprint_img_element(String source);
+CLASS_HTML static void pgprint_meta_charset_element();
+CLASS_HTML static void pgprint_h1_element(String content, Global_Attributes global_attributes);
+CLASS_HTML static void pgprint_h2_element(String content, Global_Attributes global_attributes);
+CLASS_HTML static void pgprint_h3_element(String content, Global_Attributes global_attributes);
+CLASS_HTML static void pgprint_h4_element(String content, Global_Attributes global_attributes);
+CLASS_HTML static bool pgprint_body_element_begin(Global_Attributes global_attributes);
+CLASS_HTML static bool pgprint_body_element_end();
+CLASS_HTML static void pgprint_link_stylesheet_element(String href);
+CLASS_HTML static void pgprint_string(String string);
+CLASS_HTML static bool pgprint_page_begin(String name);
+CLASS_HTML static bool pgprint_page_end();
+CLASS_HTML static bool html_element_type_must_be_empty(HTML_Element_Type element_type);
+CLASS_HTML static void _debug_print_html_token(String content, HTML_Token* token);
+CLASS_HTML static void _debug_print_html_token_recursive(String content, HTML_Token* token, uint32_t depth);
+CLASS_HTML static HTML_Element_Type html_element_type_from_string(String string);
+CLASS_HTML static HTML_File html_file_from_string(String content);
+CLASS_HTML static HTML_File html_file_search_element_depth_first(HTML_File file, HTML_Element_Type element_type);
+CLASS_HTML static HTML_File html_file_search_element_type(HTML_File file, HTML_Element_Type element_type);
+CLASS_HTML static void html_token_correct_links(HTML_Token* token);
+CLASS_HTML static HTML_Element* html_element_from_html_token_recursive(String content, HTML_Token* token);
+CLASS_TYPST static HTML_File html_file_from_typst(String path);
 
 
 
@@ -736,6 +737,11 @@ CLASS_HTML static void pgprint_script_element(String source, bool async) {
 	if (async) { sbprintf(&page->string_builder, "async "); }
 	if (source.len > 0) { sbprintf(&page->string_builder, "src=\"%s\"" , source.buffer); }
 	sbprintf(&page->string_builder, "></script>\n"); }
+CLASS_HTML static void pgprint_img_element(String source) {
+	Page* page = stack_peek(&generator->page_stack);
+	sbprintf(&page->string_builder, "<img ");
+	if (source.len > 0) { sbprintf(&page->string_builder, "src=\"%s\"" , source.buffer); }
+	sbprintf(&page->string_builder, ">\n"); }
 CLASS_HTML static void pgprint_meta_charset_element() {
 	Page* page = stack_peek(&generator->page_stack);
 	sbprintf(&page->string_builder, "<meta charset=\"utf-8\"/>\n"); }
@@ -1023,7 +1029,7 @@ static void begin(Generator* generator) {
 
 	//--- INITIALIZE GENERATOR ---//
 	// new_string_builder()
-	generator->page_stack = new_stack(16, sizeof(Page));
+	generator->page_stack = new_stack(24, sizeof(Page));
 
 	//--- CREATE FILES ---//
 	// printf("Temp directory: %s\n", temp_path);
